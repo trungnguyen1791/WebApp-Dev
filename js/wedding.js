@@ -67,117 +67,117 @@ if (qrStr) {
           var response = JSON.parse(client.responseText);
           menifestLinkPath = response.latestVersion.manifestLink.split("dropbox.com")[1];
 
-          //app title
-          var appTitle = response.latestVersion.name;
-          document.getElementById('appTitle').textContent = appTitle;
-          document.getElementById('appTitleAllBuilds').textContent = appTitle;
-          document.getElementById('appTitleMoreDetails').textContent = appTitle;
-          document.getElementById('appTitleProvisionDevice').textContent = appTitle;
+          // //app title
+          // var appTitle = response.latestVersion.name;
+          // document.getElementById('appTitle').textContent = appTitle;
+          // document.getElementById('appTitleAllBuilds').textContent = appTitle;
+          // document.getElementById('appTitleMoreDetails').textContent = appTitle;
+          // document.getElementById('appTitleProvisionDevice').textContent = appTitle;
 
-          //bundle identifier
-          var appIdentifier = response.latestVersion.identifier;
-          document.getElementById('appIdentifier').textContent = appIdentifier;
+          // //bundle identifier
+          // var appIdentifier = response.latestVersion.identifier;
+          // document.getElementById('appIdentifier').textContent = appIdentifier;
 
-          //app version and build
-          var appVersion = response.latestVersion.version;
-          var appBuild = response.latestVersion.build;
-          document.getElementById('appVersion').textContent = appVersion + ' (' + appBuild  +')';
+          // //app version and build
+          // var appVersion = response.latestVersion.version;
+          // var appBuild = response.latestVersion.build;
+          // document.getElementById('appVersion').textContent = appVersion + ' (' + appBuild  +')';
           
-          //IPA File Link
-          var ipaDownloadLink = response.latestVersion.ipaFileLink;
-          document.getElementById('downloadIPAFileButton').hidden = (ipaDownloadLink == null);
-          document.getElementById('downloadIPAFileLink').href = "/download.html?down=" + ipaDownloadLink;
+          // //IPA File Link
+          // var ipaDownloadLink = response.latestVersion.ipaFileLink;
+          // document.getElementById('downloadIPAFileButton').hidden = (ipaDownloadLink == null);
+          // document.getElementById('downloadIPAFileLink').href = "/download.html?down=" + ipaDownloadLink;
 
-          //provisioning profile details
-          if (response.latestVersion.mobileprovision) {
-            //upload time
-            var uploadDate = getDateFromTimeStamp(response.latestVersion.timestamp);
-            document.getElementById('uploadedDate').textContent = uploadDate;
+          // //provisioning profile details
+          // if (response.latestVersion.mobileprovision) {
+          //   //upload time
+          //   var uploadDate = getDateFromTimeStamp(response.latestVersion.timestamp);
+          //   document.getElementById('uploadedDate').textContent = uploadDate;
             
-            //build type
-            var buildType = response.latestVersion.buildtype;
-            document.getElementById('profileType').textContent = buildType;
+          //   //build type
+          //   var buildType = response.latestVersion.buildtype;
+          //   document.getElementById('profileType').textContent = buildType;
 
-            //ipa file size
-            var ipaFileSize = response.latestVersion.ipafilesize;
-            document.getElementById('appSize').textContent = ipaFileSize + ' MB';
+          //   //ipa file size
+          //   var ipaFileSize = response.latestVersion.ipafilesize;
+          //   document.getElementById('appSize').textContent = ipaFileSize + ' MB';
 
-            //minimum iOS version
-            var minOSVersion = response.latestVersion.minosversion;
-            document.getElementById('miniOSVersion').textContent = minOSVersion;
+          //   //minimum iOS version
+          //   var minOSVersion = response.latestVersion.minosversion;
+          //   document.getElementById('miniOSVersion').textContent = minOSVersion;
 
-            //supported device
-            var supporteddevice = response.latestVersion.supporteddevice;
-            document.getElementById('deviceFamily').textContent = supporteddevice;
+          //   //supported device
+          //   var supporteddevice = response.latestVersion.supporteddevice;
+          //   document.getElementById('deviceFamily').textContent = supporteddevice;
 
-            //profile creation date
-            var provisonCreationDate = getDateFromTimeStamp(response.latestVersion.mobileprovision.createdate);
-            document.getElementById('profileCreation').textContent = provisonCreationDate;
+          //   //profile creation date
+          //   var provisonCreationDate = getDateFromTimeStamp(response.latestVersion.mobileprovision.createdate);
+          //   document.getElementById('profileCreation').textContent = provisonCreationDate;
 
-            //profile expiration date
-            var provisonExpirationDate = getDateFromTimeStamp(response.latestVersion.mobileprovision.expirationdata);
-            document.getElementById('profileExpiration').textContent = provisonExpirationDate;
+          //   //profile expiration date
+          //   var provisonExpirationDate = getDateFromTimeStamp(response.latestVersion.mobileprovision.expirationdata);
+          //   document.getElementById('profileExpiration').textContent = provisonExpirationDate;
           
-            //profile team name
-            var teamName = response.latestVersion.mobileprovision.teamname;
-            document.getElementById('teamName').textContent = teamName;
+          //   //profile team name
+          //   var teamName = response.latestVersion.mobileprovision.teamname;
+          //   document.getElementById('teamName').textContent = teamName;
 
-            //provision device udid
-            var devicesUDID = response.latestVersion.mobileprovision.devicesudid
-            if (devicesUDID && devicesUDID.length > 1) {
-              updateProvisionDeviceView(devicesUDID);
-            } else {
-              document.getElementById('showProvisionedDevicesList').hidden = true;
-            }
+          //   //provision device udid
+          //   var devicesUDID = response.latestVersion.mobileprovision.devicesudid
+          //   if (devicesUDID && devicesUDID.length > 1) {
+          //     updateProvisionDeviceView(devicesUDID);
+          //   } else {
+          //     document.getElementById('showProvisionedDevicesList').hidden = true;
+          //   }
 
-            //check app compatability with device
-            var message = "";
-            if (myApp.device.ios) {
-              if ((myApp.device.iphone || myApp.device.ipod)) {
-                if (!supporteddevice.toLowerCase().includes('iphone')) {
-                  message = '"'+ appTitle + '" not compatible with ' + (myApp.device.iphone ? 'iPhone.' : 'iPod.');
-                }
-              } else if (myApp.device.ipad) {
-                if (!supporteddevice.toLowerCase().includes('ipad')) {
-                  message = '"'+ appTitle + '" not optimised for iPad. But you still can install the application.';
-                }
-              }
-              if (parseFloat(myApp.device.osVersion) < parseFloat(minOSVersion)) {
-                message = '"' + appTitle + '" only compatible with iOS ' + minOSVersion + ' or higher.';
-              }
-            } else {
-              message += 'Open this page on your iOS device to install the "' + appTitle + '".';
-            }
-            if (message.length > 0) {
-              myApp.addNotification({
-                message: message,
-                title: "AppBox",
-                button: {
-                    text: 'Ok',
-                },
-            });
-            }
-          } else {
-            //hide hide more details for old builds
-            document.getElementById('showMoreDetailsOption').hidden = true;
-          }
+          //   //check app compatability with device
+          //   var message = "";
+          //   if (myApp.device.ios) {
+          //     if ((myApp.device.iphone || myApp.device.ipod)) {
+          //       if (!supporteddevice.toLowerCase().includes('iphone')) {
+          //         message = '"'+ appTitle + '" not compatible with ' + (myApp.device.iphone ? 'iPhone.' : 'iPod.');
+          //       }
+          //     } else if (myApp.device.ipad) {
+          //       if (!supporteddevice.toLowerCase().includes('ipad')) {
+          //         message = '"'+ appTitle + '" not optimised for iPad. But you still can install the application.';
+          //       }
+          //     }
+          //     if (parseFloat(myApp.device.osVersion) < parseFloat(minOSVersion)) {
+          //       message = '"' + appTitle + '" only compatible with iOS ' + minOSVersion + ' or higher.';
+          //     }
+          //   } else {
+          //     message += 'Open this page on your iOS device to install the "' + appTitle + '".';
+          //   }
+          //   if (message.length > 0) {
+          //     myApp.addNotification({
+          //       message: message,
+          //       title: "AppBox",
+          //       button: {
+          //           text: 'Ok',
+          //       },
+          //   });
+          //   }
+          // } else {
+          //   //hide hide more details for old builds
+          //   document.getElementById('showMoreDetailsOption').hidden = true;
+          // }
 
-          //update page title and installation message
-          document.title = appTitle + " | AppBox";
-          trackPageName();
-          updateInstallationMessage(appTitle);
+          // //update page title and installation message
+          // document.title = appTitle + " | AppBox";
+          // trackPageName();
+          // updateInstallationMessage(appTitle);
 
-          //check for other version of this build
-          if (response.versions.length > 1) {
-            document.getElementById('installButton').textContent = "Install Latest Version";
-            updatePreviousBuild(response.versions);
-          } else {
-            document.getElementById('installButton').textContent = "Install Application";
-            document.getElementById('showAllBuildButton').hidden = true;
-          }
+          // //check for other version of this build
+          // if (response.versions.length > 1) {
+          //   document.getElementById('installButton').textContent = "Install Latest Version";
+          //   updatePreviousBuild(response.versions);
+          // } else {
+          //   document.getElementById('installButton').textContent = "Install Application";
+          //   document.getElementById('showAllBuildButton').hidden = true;
+          // }
 
-          //show home page
-          showHome();
+          // //show home page
+          // showHome();
         }
         catch (err) {
           showErrorUI();
