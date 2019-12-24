@@ -29,22 +29,22 @@ if (qrStr) {
       if (client.readyState == 4 && client.status == 200) {
         try {
           menifestLinkPath = qrStr;
-          var response = client.responseText.replace(new RegExp(/[^a-zA-Z0-9.]/g), '');
-          var appTitle = response.split('stringkeytitlekeystring')[1].toString().split('string')[0];
-          var appIdentifier = response.split('keybundleidentifierkeystring')[1].toString().split('string')[0];
-          var appVersion = response.split('stringkeybundleversionkeystring')[1].toString().split('string')[0];
-          document.getElementById('appTitle').textContent = appTitle;
-          document.getElementById('appVersion').textContent = appVersion;
-          document.getElementById('appIdentifier').textContent = appIdentifier;
-          document.getElementById('installButton').textContent = "Install Application";
-          document.getElementById('showAllBuildButton').hidden = true;
-          document.getElementById('showMoreDetailsOption').hidden = true;
-          document.getElementById('downloadIPAFileButton').hidden = true;
+          // var response = client.responseText.replace(new RegExp(/[^a-zA-Z0-9.]/g), '');
+          // var appTitle = response.split('stringkeytitlekeystring')[1].toString().split('string')[0];
+          // var appIdentifier = response.split('keybundleidentifierkeystring')[1].toString().split('string')[0];
+          // var appVersion = response.split('stringkeybundleversionkeystring')[1].toString().split('string')[0];
+          // document.getElementById('appTitle').textContent = appTitle;
+          // document.getElementById('appVersion').textContent = appVersion;
+          // document.getElementById('appIdentifier').textContent = appIdentifier;
+          // document.getElementById('installButton').textContent = "Install Application";
+          // document.getElementById('showAllBuildButton').hidden = true;
+          // document.getElementById('showMoreDetailsOption').hidden = true;
+          // document.getElementById('downloadIPAFileButton').hidden = true;
 
-          document.title = appTitle + " | AppBox";
-          trackPageName();
-          updateInstallationMessage(appTitle);
-          showHome();
+          // document.title = appTitle + " | AppBox";
+          // trackPageName();
+          // updateInstallationMessage(appTitle);
+          // showHome();
         }
         catch (err) {
           showErrorUI();
