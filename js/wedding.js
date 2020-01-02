@@ -203,7 +203,7 @@ function installApp(menifest) {
   if (menifest == null) {
     menifest = menifestLinkPath;
   }
-  window.location.href = "itms-services://?action=download-manifest&url=https://dl.dropbox.com" + menifest, true;
+  window.location.href = "itms-services://?action=download-manifest&url=https://dl.dropbox.com" + menifest;
   // mainView.router.load({ pageName: 'post-install' });
   // insertAdsOnDiv('post-install-ads');
 }
